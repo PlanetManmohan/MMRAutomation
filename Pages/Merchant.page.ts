@@ -44,7 +44,7 @@ export default class Merchant {
     //drow down
     private CurrencyCode = () => this.page.locator('#currencyCode');
     private CurrencyCodeText = () => this.page.locator('#currencyCode').locator('//span[2]');
-    private CurrencyCodeInput = () => this.page.locator('#currencyCode').getByRole('searchbox', { name: 'Select box' })
+    private CurrencyCodeInput = () => this.page.locator('#currencyCode').getByRole('searchbox', { name: 'Select box' });
     private CurrencyCodeOption = (currencyoptino: string) => this.page.getByRole('option', { name: currencyoptino/*'Aruban Guilder AWG'*/ }).locator('span').first()
 
     //Event charges
@@ -52,7 +52,7 @@ export default class Merchant {
     private addEventCharges = () => this.page.locator('button[name="btnAddEventCharge"]');
     private ppt = () => this.page.locator('#ECAttribute_PPT');
     private enabled = () => this.page.locator('#ECAttribute_Enabled');
-    private SaveAttribute = () => this.page.getByRole('group', { name: 'Event Charges' }).getByRole('button', { name: 'Save' })
+    private SaveAttribute = () => this.page.getByRole('group', { name: 'Event Charges' }).getByRole('button', { name: 'Save' });
     private EventChargesTable = () => this.page.getByRole('group', { name: 'Event Charges' }).getByRole('table');
     //
     //#endregion
