@@ -2,6 +2,7 @@ import { expect, Locator, Page } from "@playwright/test";
 import { error } from "console";
 import Common, { Operation } from './Common';
 import MenuList from "./MenuList";
+import { PageURL } from "./Variables";
 
 export default class MerchantList {
 
@@ -45,11 +46,13 @@ export default class MerchantList {
 
 
     async GotoMerchantList() {
-
         this.common = new Common(this.page);
         await this.common.MenuOperation(MenuList.MerchantsList, Operation.Select);
     }
 
+    async goto() {
+        await this.page.goto(PageURL.MerchantList);
+    }
 
 
     async FilterMerchant_Simple(Acquirer: string, Customer: string = '', HeadOffice: string = '') {
@@ -98,7 +101,7 @@ export default class MerchantList {
         if (Country) {
             await this.CountryId().click();
             await this.Searchbox().fill(Country);
-            await this.DropDownOption(Country,true).click();
+            await this.DropDownOption(Country,false).click();
         }
         if (Channel) {
             await this.ChannelId().click();

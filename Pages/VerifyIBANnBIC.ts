@@ -1,6 +1,5 @@
 import { expect, Locator, Page } from "@playwright/test";
 import Common, { Operation } from './Common';
-
 import Administration from "./Administration.page";
 
 

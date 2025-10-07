@@ -5,6 +5,7 @@ import MenuList from "./MenuList";
 import { TIMEOUT } from "dns";
 import { MerchantOperationActions, MerchantProperties, ModelDialogButton, ModelDialogHeading, ModelDialogMessage } from "./Variables";
 import Administration from "./Administration.page";
+import MerchantList from "./MerchantList.page";
 
 
 export default class Merchant {
@@ -27,11 +28,7 @@ export default class Merchant {
     private ActionMenuOptions = (menu: string) => this.page.locator('.dropdown-menu').locator('li').locator('a', { hasText: menu });
     private Save = () => this.page.getByRole('button', { name: 'Save' });
     private Cancel = () => this.page.getByRole('button', { name: 'Cancel' })
-    //private Tab = () => this.page.locator('#maintab').getByRole('link', { name: 'Merchant Details' }).click();
-    private ModelDialog = () => this.page.locator('.modal-dialog ', { hasText: 'Success' });//?
-    private ModelDialogHeading = () => this.page.locator('.modal-content').locator('h3');//?
-    private ModelDialogHMessage = () => this.page.locator('.modal-content').locator('panel-body');//?
-    private ModelDialogOKButton = () => this.page.locator('.modal-content').locator('button', { hasText: 'OK' });
+    
     //#region MerchantDetails
 
     //text
@@ -228,5 +225,5 @@ export default class Merchant {
         //this dialog will not come if there is error- need to remove
         // await this.common.ModelDialogOperation("", "", ModelDialogButton.OK);
 
-    }
+    }    
 }

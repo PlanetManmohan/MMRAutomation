@@ -1,45 +1,31 @@
-import test, { Browser, BrowserContext, chromium, expect, Page } from '@playwright/test';
 import Env from '../../Utils/Environment';
-import Common, { Operation } from '../../Pages/Common';
+import Common from '../../Pages/Common';
 import DashboardPage from '../../Pages/Dashboard.page';
+import { test, expect } from '../../Pages/HooksFixture';
 
-
-let browser: Browser;
-let context: BrowserContext;
-export let page: Page;
-let d: DashboardPage;
 let common: Common;
 
-
-test.beforeAll(async () => {
-    browser = await chromium.launch({
-        //headless: false,
-        channel: "chrome"//"chrome" //"msedge"
-
-    });
-
-    context = await browser.newContext({
-        /*recordVideo:{dir:"./videos/",}*/
-    });
-    page = await context.newPage();
-    //await page.goto(Env.MMRPreProdURL);
-    await page.goto(Env.MMRQaURL);
-
-})
-
-
-
-test('Dashboard centent: customers', async () => {
+test('Dashboard content: customers', async ({ page, loginlogoutfixture }) => {
     let dd = new DashboardPage(page)
+    await dd.goto();
     await dd.VerifyDashboardContent();
 });
 
-test('Verify title and footer(version, Build, System name)', async () => {
+test('Verify title and footer(version, Build, System name)', async ({ page, loginlogoutfixture }) => {
     common = new Common(page);
+    let dd = new DashboardPage(page)
+    await dd.goto();
     await common.VerifyFooterText(Env.MMRVersion);
-   
 
-    
+
     //await test.step('UI test');
-})
+});
+
+test('has MMR title', async ({ page, loginlogoutfixture }) => {
+    let dd = new DashboardPage(page)
+    await dd.goto();
+    const title = await page.title();
+    console.log(title);
+    expect(title).toBe("MMR");
+});
 

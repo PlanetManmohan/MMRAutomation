@@ -1,5 +1,5 @@
 import { expect, Page } from "@playwright/test";
-import { error } from "console";
+import { PageURL } from "./Variables";
 
 export default class DashboardPage {
 
@@ -23,6 +23,12 @@ export default class DashboardPage {
 
     //#endregion
 
+    async goto() {
+
+        //await this.common.MenuOperation(MenuList.UtilitiesImportFile, Operation.Select);
+        await this.page.goto('/');
+    }
+    
     async VerifyDashboardContent() {
         await expect(this.Customers()).toBeVisible();
         console.log(await this.Customers().textContent());
