@@ -1,0 +1,1 @@
+//Validate Terminal List populates, filters, refresh, toggle, pagination, columns all as expected
