@@ -5,7 +5,7 @@ on:
   pull_request:
     branches: [ main, master ]
 jobs:
-  test:
+  MMRAutoTest:
     timeout-minutes: 60
     runs-on: self-hosted
     steps:
