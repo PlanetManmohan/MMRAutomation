@@ -186,6 +186,19 @@ export default class Common {
         return table.locator('th').count();
     }
 
+    async getColumnNames(table: Locator) {
+        const columnLocator = table.locator('th');
+        const count = await columnLocator.count();
+
+        const columnNames: string[] = [];
+
+        for (let i = 0; i < count; i++) {
+            const text = await columnLocator.nth(i).textContent();
+            columnNames.push(text?.trim() || '');
+        }
+        return columnNames;
+    }
+
     async getTotalRowCount(table: Locator) {
         return table.locator('tr').count();
     }
@@ -195,6 +208,16 @@ export default class Common {
         if (await cols.count() == columns.length) {
             for (const col of columns) {
                 await expect(table.locator('th', { hasText: col })).toBeVisible();
+            };
+        }
+
+    }
+
+    async verifyColumnNOTPresent(table: Locator, columns: string[]) {
+        let cols = table.locator('th');
+        if (await cols.count() == columns.length) {
+            for (const col of columns) {
+                await expect(table.locator('th', { hasText: col })).not.toBeVisible();
             };
         }
 
@@ -220,7 +243,7 @@ export default class Common {
         return `${day}${month}${year}_${customTime}`;
     }
 
-    async AllRowContainsSameValue(table: Locator, column: string, value: string){
+    async AllRowContainsSameValue(table: Locator, column: string, value: string) {
 
         let colNo = await this.getColumnNumber(table, column)
         console.log('Column no is:' + colNo);

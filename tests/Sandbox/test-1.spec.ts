@@ -38,7 +38,19 @@ await page.getByRole('cell', { name: 'ARION RETAIL GROUP COPENH …' }).click();
 await page.goto('https://mmr-qa.fintrax.com/#/Store');
 
 
-
+await page.goto('https://mmr-qa.fintrax.com/#/Terminal');
+await page.getByRole('button', { name: 'Columns' }).click();
+await page.getByRole('menuitem', { name: 'Merchant' }).locator('span').click();
+await page.getByRole('menuitem', { name: 'Merchant' }).locator('span').click();
+await page.getByRole('menuitem', { name: 'Merchant' }).locator('span').click();
+await page.getByRole('menuitem', { name: 'Merchant' }).locator('span').click();
+await page.getByRole('menuitem', { name: 'Merchant' }).locator('span').click();
+await page.getByRole('menuitem', { name: 'Merchant' }).locator('span').click();
+await page.getByRole('menuitem', { name: 'Address' }).locator('span').click();
+await page.getByRole('menuitem', { name: 'MID' }).locator('span').click();
+await page.getByRole('menuitem', { name: 'TID' }).locator('span').click();
+await page.getByRole('checkbox', { name: 'Active' }).uncheck();
+await page.getByRole('checkbox', { name: 'Active' }).check();
 
 
 

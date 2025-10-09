@@ -1,4 +1,5 @@
 //Validate Terminal List populates, filters, refresh, toggle, pagination, columns all as expected
+import { text } from 'stream/consumers';
 import Common from '../../Pages/Common';
 import { test, expect } from '../../Pages/HooksFixture';
 import TerminalList from '../../Pages/TerminalList.page';
@@ -22,6 +23,7 @@ test.describe.configure({ /*mode: 'serial'*/ /*, retries:1* as all retires toget
     });
 
 });
+
 [
     { MID: '202503061' },
 ].forEach(({ MID }) => {
@@ -46,23 +48,73 @@ test.describe.configure({ /*mode: 'serial'*/ /*, retries:1* as all retires toget
     });
 });
 
-test.fixme('Terminal search - Filter with MID', async ({ page, loginlogoutfixture }) => {
-
-});
-
-[
-    { TID: '202503061' },
-].forEach(({ TID: merchantName }) => {
-    test.fixme('Terminal search - Filter with TID', async ({ page, loginlogoutfixture }) => {
-
-    });
-});
-
-
 test('Terminal List - Verify table column', async ({ page, loginlogoutfixture }) => {
     terminal = new TerminalList(page);
     await terminal.goto();
-    
-    await terminal.VerifyColumnCountForBIC(8);
+
+    await terminal.VerifyColumnCount(8);
 });
 
+[
+    { column: ['MID'] },
+    { column: ['Terminal Type', 'Comms Type'] },
+    { column: ['Address', 'MID', 'TID'] },
+].forEach(({ column }) => {
+    test(`Terminal List - Remove column [${column}]`, async ({ page, loginlogoutfixture }) => {
+        terminal = new TerminalList(page);
+        await terminal.goto();
+
+        await terminal.VerifyColumnCount(8);
+        await terminal.RemoveColumn(column);
+        await terminal.VerifyColumnCount(8 - column.length);
+    });
+});
+
+[
+    { column: ['Terminal Type', 'Address', 'Comms Type', 'Address', 'MID', 'Options'] },
+].forEach(({ column }) => {
+    test(`Terminal List - Should have atleast 3 columns [${column}]`, async ({ page, loginlogoutfixture }) => {
+        terminal = new TerminalList(page);
+        await terminal.goto();
+
+        await terminal.VerifyColumnCount(8);
+        await terminal.CannotRemoveAllColumn(column);
+    });
+});
+
+[
+    { column: ['Terminal Type', 'Address', 'Comms Type', 'Address', 'MID', 'Options'] },
+].forEach(({ column }) => {
+    test(`Terminal List | Export data - columns are correct [${column}]`, async ({ page, loginlogoutfixture }) => {
+        terminal = new TerminalList(page);
+        await terminal.goto();
+
+        await terminal.VerifyColumnCount(8);
+        await terminal.RemoveAllColumnExcept(column);
+        await terminal.ExportAndValidateColumns(column);
+    });
+});
+
+[
+    { exportColumns: ['Merchant', 'Terminal Type', 'Comms Type', 'Address', 'MID', 'TID', 'Active', 'Options'] },
+    { exportColumns: ['Terminal Type', 'Address', 'Comms Type', 'Address', 'MID', 'Options'] },
+    { exportColumns: ['Merchant', 'TID', 'MID', 'Active'] },
+].forEach(({ exportColumns }) => {
+    test(`Terminal List - Export data with columns [${exportColumns}] and verify CSV colums`, async ({ page, loginlogoutfixture }) => {
+        terminal = new TerminalList(page);
+        await terminal.goto();
+
+        await terminal.RemoveAllColumnExcept(exportColumns);
+        let path = await terminal.ExportAndValidateColumns(exportColumns);
+
+        // Attach CSV to test report
+        await test.info().attach('exported-data', {
+            path: path,
+            contentType: 'text/csv'
+        });
+    });
+});
+
+test.fixme(`Terminal List | Export data - export data with columns and verify CSV -----------content--------`, async ({ page, loginlogoutfixture }) => {
+
+});
